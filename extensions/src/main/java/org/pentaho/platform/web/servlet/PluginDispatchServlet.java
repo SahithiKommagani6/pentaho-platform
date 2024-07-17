@@ -35,20 +35,21 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.websocket.DeploymentException;
-import javax.websocket.HandshakeResponse;
-import javax.websocket.server.HandshakeRequest;
-import javax.websocket.server.ServerContainer;
-import javax.websocket.server.ServerEndpointConfig;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import jakarta.websocket.HandshakeResponse;
+import jakarta.websocket.server.HandshakeRequest;
+import jakarta.websocket.server.ServerContainer;
+import jakarta.websocket.server.ServerEndpointConfig;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -303,8 +304,8 @@ public class PluginDispatchServlet implements Servlet {
         } else {
           logger.warn( pluginId + " plugin Websocket could not be configured because ServerContainer is missing" );
         }
-      } catch ( DeploymentException ex ) {
-        logger.error( "Failed to register endpoint for " + beanEntry.getClass() + " on " + context + ": " + ex.getMessage(), ex );
+      } catch ( Exception ex ) {
+        logger.error( "Failed to register endpoint for " + beanEntry.getClass() + " on " + context + ": " , ex );
       }
     }
   }

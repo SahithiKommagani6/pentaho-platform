@@ -28,11 +28,11 @@ import org.pentaho.platform.web.http.context.WebApplicationContext;
 import org.pentaho.platform.web.websocket.WebsocketEndpointConfig;
 import org.springframework.beans.factory.ListableBeanFactory;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.websocket.DeploymentException;
-import javax.websocket.server.ServerContainer;
-import javax.websocket.server.ServerEndpointConfig;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.websocket.DeploymentException;
+import jakarta.websocket.server.ServerContainer;
+import jakarta.websocket.server.ServerEndpointConfig;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.List;

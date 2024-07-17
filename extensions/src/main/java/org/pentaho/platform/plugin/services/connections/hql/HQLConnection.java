@@ -20,7 +20,9 @@
 
 package org.pentaho.platform.plugin.services.connections.hql;
 
-import org.hibernate.Query;
+import jakarta.persistence.Tuple;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -132,7 +134,7 @@ public class HQLConnection implements IPentahoLoggingConnection, ILimitableConne
     Session sess = null;
     IPentahoResultSet localResultSet = null;
     try {
-      SessionFactory sf = hibernateConfig.buildSessionFactory();
+      /*SessionFactory sf = hibernateConfig.buildSessionFactory();
       // open session
       sess = sf.openSession();
       Query q = sess.createQuery( query );
@@ -143,7 +145,25 @@ public class HQLConnection implements IPentahoLoggingConnection, ILimitableConne
         q.setMaxResults( maxRows );
       }
       List list = q.list();
-      localResultSet = generateResultSet( list, q.getReturnAliases(), q.getReturnTypes() );
+      localResultSet = generateResultSet( list, q.getReturnAliases(), q.getReturnTypes() );*/
+      SessionFactory sf = hibernateConfig.buildSessionFactory();
+      sess = sf.openSession();
+      Transaction transaction = sess.beginTransaction();
+
+      // Create query using Tuple
+      Query<Tuple> q = sess.createQuery(query, Tuple.class);
+      if (timeOut >= 0) {
+        q.setTimeout(timeOut);
+      }
+      if (maxRows >= 0) {
+        q.setMaxResults(maxRows);
+      }
+
+      List<Tuple> list = q.getResultList();
+      localResultSet = generateResultSet(list);
+
+      transaction.commit();
+
     } finally {
       try {
         if ( sess != null ) {
@@ -155,6 +175,11 @@ public class HQLConnection implements IPentahoLoggingConnection, ILimitableConne
       }
     }
 
+    return localResultSet;
+  }
+
+  private IPentahoResultSet generateResultSet(List<Tuple> list) {
+    HQLResultSet localResultSet = new HQLResultSet(list);
     return localResultSet;
   }
 

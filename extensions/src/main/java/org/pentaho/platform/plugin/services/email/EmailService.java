@@ -51,11 +51,11 @@ import org.pentaho.platform.util.EmailConstants;
 import org.pentaho.platform.util.EncryptedPasswordAuthenticator;
 import org.pentaho.platform.util.xml.dom4j.XmlDom4JHelper;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Message;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -196,9 +196,9 @@ public class EmailService implements IEmailService {
     if ( emailConfig.getAuthMechanism().equals( EmailConstants.AUTH_TYPE_XOAUTH2 ) || !emailConfig.isAuthenticate() ) {
       session = Session.getInstance( emailProperties );
     } else {
-      emailProperties.setProperty( "mail.smtp.auth", "true" );
+      /*emailProperties.setProperty( "mail.smtp.auth", "true" );
       session = Session.getInstance( emailProperties, new EncryptedPasswordAuthenticator( emailConfig.getUserId(),
-              emailConfig.getPassword() ) );
+              emailConfig.getPassword() ) );*/
     }
     String sendEmailMessage = "";
     try {

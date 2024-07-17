@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE hibernate-configuration
   PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
-  "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+  "https://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory >
   
@@ -11,7 +11,7 @@
     <property name="connection.url">jdbc:hsqldb:hsql://localhost/hibernate</property>
     <property name="connection.username">hibuser</property>
     <property name="connection.password">password</property>
-    <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
     <property name="connection.pool_size">10</property>
     <property name="show_sql">false</property>
     <property name="hibernate.jdbc.use_streams_for_binary">true</property>

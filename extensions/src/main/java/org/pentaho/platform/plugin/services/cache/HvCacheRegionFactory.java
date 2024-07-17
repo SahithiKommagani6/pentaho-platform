@@ -19,16 +19,71 @@
  */
 package org.pentaho.platform.plugin.services.cache;
 
+import org.hibernate.boot.spi.SessionFactoryOptions;
+import org.hibernate.cache.CacheException;
+import org.hibernate.cache.cfg.spi.DomainDataRegionBuildingContext;
+import org.hibernate.cache.cfg.spi.DomainDataRegionConfig;
 import org.hibernate.cache.ehcache.internal.SingletonEhcacheRegionFactory;
+import org.hibernate.cache.spi.DomainDataRegion;
+import org.hibernate.cache.spi.QueryResultsRegion;
+import org.hibernate.cache.spi.RegionFactory;
 import org.hibernate.cache.spi.TimestampsRegion;
+import org.hibernate.cache.spi.access.AccessType;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 
-public class HvCacheRegionFactory extends SingletonEhcacheRegionFactory {
+import java.util.Map;
+
+public class HvCacheRegionFactory implements RegionFactory {
   @Override
+  public void start(SessionFactoryOptions sessionFactoryOptions, Map<String, Object> map) throws CacheException {
+
+  }
+
+  @Override
+  public boolean isMinimalPutsEnabledByDefault() {
+    return false;
+  }
+
+  @Override
+  public AccessType getDefaultAccessType() {
+    return null;
+  }
+
+  @Override
+  public String qualify(String s) {
+    return null;
+  }
+
+  @Override
+  public long nextTimestamp() {
+    return 0;
+  }
+
+  @Override
+  public DomainDataRegion buildDomainDataRegion(DomainDataRegionConfig domainDataRegionConfig, DomainDataRegionBuildingContext domainDataRegionBuildingContext) {
+    return null;
+  }
+
+  @Override
+  public QueryResultsRegion buildQueryResultsRegion(String s, SessionFactoryImplementor sessionFactoryImplementor) {
+    return null;
+  }
+
+  @Override
+  public TimestampsRegion buildTimestampsRegion(String s, SessionFactoryImplementor sessionFactoryImplementor) {
+    return null;
+  }
+
+  /*@Override
   public TimestampsRegion buildTimestampsRegion(
     String regionName, SessionFactoryImplementor sessionFactory) {
     verifyStarted();
     return new HvTimestampsRegion(
       regionName, this, createTimestampsRegionStorageAccess( regionName, sessionFactory ) );
+  }*/
+
+  @Override
+  public void stop() {
+
   }
 }

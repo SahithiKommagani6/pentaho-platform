@@ -54,6 +54,11 @@ public class EmptyStringUserType implements UserType {
     return EmptyStringUserType.SQLTYPE;
   }
 
+  @Override
+  public int getSqlType() {
+    return java.sql.Types.VARCHAR;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -82,6 +87,11 @@ public class EmptyStringUserType implements UserType {
   }
 
   @Override
+  public Object nullSafeGet(ResultSet resultSet, int i, SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws SQLException {
+   return null;
+  }
+
+
   public Object nullSafeGet( ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner )
     throws HibernateException, SQLException {
     return null;
@@ -93,12 +103,13 @@ public class EmptyStringUserType implements UserType {
 
   }
 
+
   /*
    * (non-Javadoc)
    * 
    * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet, java.lang.String[], java.lang.Object)
    */
-  public Object nullSafeGet( final ResultSet arg0, final String[] arg1, final Object arg2 ) throws HibernateException,
+  /*public Object nullSafeGet( final ResultSet arg0, final String[] arg1, final Object arg2 ) throws HibernateException,
     SQLException {
     if ( EmptyStringUserType.debug ) {
       EmptyStringUserType.log.debug( Messages.getInstance().getString( "EMPTYSTRTYPE.DEBUG_NULL_SAFE_GET" ) ); //$NON-NLS-1$
@@ -109,14 +120,14 @@ public class EmptyStringUserType implements UserType {
     // the DB for this flag,
     // and if it's there, then this must be an empty string.
     return ( ( colValue != null ) ? ( colValue.equals( EmptyStringUserType.PENTAHOEMPTY ) ? "" : colValue ) : null ); //$NON-NLS-1$
-  }
+  }*/
 
   /*
    * (non-Javadoc)
    * 
    * @see org.hibernate.usertype.UserType#nullSafeSet(java.sql.PreparedStatement, java.lang.Object, int)
    */
-  public void nullSafeSet( final PreparedStatement arg0, final Object arg1, final int arg2 ) throws HibernateException,
+  /*public void nullSafeSet( final PreparedStatement arg0, final Object arg1, final int arg2 ) throws HibernateException,
     SQLException {
     // If this is an empty string, write _PENTAHOEMPTY_ into the database.
     if ( EmptyStringUserType.debug ) {
@@ -125,7 +136,7 @@ public class EmptyStringUserType implements UserType {
 
     StandardBasicTypes.STRING.nullSafeSet( arg0, ( arg1 != null ) ? ( ( ( (String) arg1 ).length() > 0 ) ? arg1
         : EmptyStringUserType.PENTAHOEMPTY ) : arg1, arg2, null );
-  }
+  }*/
 
   /*
    * (non-Javadoc)

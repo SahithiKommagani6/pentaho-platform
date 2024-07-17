@@ -36,7 +36,7 @@ public class BinaryUserType extends BlobUserType {
    * 
    * @see org.hibernate.usertype.UserType#sqlTypes()
    */
-  @Override
+  //@Override
   public int[] sqlTypes() {
     return BinaryUserType.SQLTYPE;
   }

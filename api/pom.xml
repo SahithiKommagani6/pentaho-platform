@@ -138,6 +138,7 @@
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>4.0.2</version>
     </dependency>
 
     <dependency>
@@ -172,7 +173,7 @@
     </dependency>
     <dependency>
       <groupId>com.sun.mail</groupId>
-      <artifactId>javax.mail</artifactId>
+      <artifactId>jakarta.mail</artifactId>
       <version>${mail.version}</version>
       <scope>compile</scope>
       <exclusions>
@@ -182,6 +183,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
   </dependencies>
   <build>
     <plugins>

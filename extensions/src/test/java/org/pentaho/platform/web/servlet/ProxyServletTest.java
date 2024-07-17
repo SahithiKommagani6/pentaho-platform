@@ -23,6 +23,9 @@ package org.pentaho.platform.web.servlet;
 import com.mockrunner.mock.web.MockHttpServletRequest;
 import com.mockrunner.mock.web.MockHttpServletResponse;
 import com.mockrunner.mock.web.MockServletConfig;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -41,7 +44,7 @@ import org.pentaho.di.core.util.HttpClientManager;
 import org.pentaho.platform.api.engine.IPentahoSession;
 import org.pentaho.platform.util.messages.LocaleHelper;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -76,7 +79,7 @@ public class ProxyServletTest {
     config.setInitParameter( "ProxyURL", "pentaho" );
 
     ProxyServlet servlet = spy( new ProxyServlet() );
-    servlet.init( config );
+    servlet.init((ServletConfig) config);
 
     assertNull( servlet.getProxyURL() );
 
@@ -89,7 +92,7 @@ public class ProxyServletTest {
     config.setInitParameter( "ProxyURL", "https://www.pentaho.org" );
 
     ProxyServlet servlet = spy( new ProxyServlet() );
-    servlet.init( config );
+    servlet.init((ServletConfig) config);
 
     assertEquals( "https://www.pentaho.org", servlet.getProxyURL() );
     assertNull( servlet.getErrorURL() );
@@ -103,7 +106,7 @@ public class ProxyServletTest {
     config.setInitParameter( "ErrorURL", "https://www.pentaho.org" );
 
     ProxyServlet servlet = spy( new ProxyServlet() );
-    servlet.init( config );
+    servlet.init((ServletConfig) config);
 
     assertNull( servlet.getProxyURL() );
     assertEquals( "https://www.pentaho.org", servlet.getErrorURL() );
@@ -119,7 +122,7 @@ public class ProxyServletTest {
     config.setInitParameter( "LocaleOverrideEnabled", "false" );
 
     ProxyServlet servlet = spy( new ProxyServlet() );
-    servlet.init( config );
+    servlet.init((ServletConfig) config);
 
     assertFalse( servlet.isLocaleOverrideEnabled() );
   }
@@ -131,7 +134,7 @@ public class ProxyServletTest {
     config.setInitParameter( "LocaleOverrideEnabled", "true" );
 
     ProxyServlet servlet = spy( new ProxyServlet() );
-    servlet.init( config );
+    servlet.init((ServletConfig) config);
 
     assertTrue( servlet.isLocaleOverrideEnabled() );
   }
@@ -142,7 +145,7 @@ public class ProxyServletTest {
     config.setInitParameter( "ProxyURL", "https://www.pentaho.org" );
 
     ProxyServlet servlet = spy( new ProxyServlet() );
-    servlet.init( config );
+    servlet.init((ServletConfig) config);
 
     assertTrue( servlet.isLocaleOverrideEnabled() );
   }
@@ -154,7 +157,7 @@ public class ProxyServletTest {
 
     ProxyServlet servlet = spy( new ProxyServlet() );
 
-    servlet.doProxy( request, response );
+    servlet.doProxy((HttpServletRequest) request, (HttpServletResponse) response);
 
     verify( servlet, never() ).buildProxiedUri( any(), any() );
     verify( servlet, never() ).doProxyCore( any(), any(), any() );
@@ -169,9 +172,9 @@ public class ProxyServletTest {
 
     when( servlet.getProxyURL() ).thenReturn( "https://www.pentaho.org" );
     when( servlet.getErrorURL() ).thenReturn( "https://www.pentaho.org/error" );
-    when( servlet.getPentahoSession( request ) ).thenReturn( null );
+    when( servlet.getPentahoSession((HttpServletRequest) request) ).thenReturn( null );
 
-    servlet.doProxy( request, response );
+    servlet.doProxy((HttpServletRequest) request, (HttpServletResponse) response);
 
     verify( servlet, never() ).buildProxiedUri( any(), any() );
     verify( servlet, never() ).doProxyCore( any(), any(), any() );
@@ -189,9 +192,9 @@ public class ProxyServletTest {
 
     when( servlet.getProxyURL() ).thenReturn( "https://www.pentaho.org" );
     when( servlet.getErrorURL() ).thenReturn( "https://www.pentaho.org/error" );
-    when( servlet.getPentahoSession( request ) ).thenReturn( session );
+    when( servlet.getPentahoSession((HttpServletRequest) request) ).thenReturn( session );
 
-    servlet.doProxy( request, response );
+    servlet.doProxy((HttpServletRequest) request, (HttpServletResponse) response);
 
     verify( servlet, never() ).buildProxiedUri( any(), any() );
     verify( servlet, never() ).doProxyCore( any(), any(), any() );
@@ -212,15 +215,15 @@ public class ProxyServletTest {
     ProxyServlet servlet = spy( new ProxyServlet() );
 
     when( servlet.getProxyURL() ).thenReturn( "https://www.pentaho.org" );
-    when( servlet.getPentahoSession( request ) ).thenReturn( session );
+    when( servlet.getPentahoSession((HttpServletRequest) request) ).thenReturn( session );
 
-    doReturn( mockURI ).when( servlet ).buildProxiedUri( request, userName );
-    doNothing().when( servlet ).doProxyCore( mockURI, request, response );
+    doReturn( mockURI ).when( servlet ).buildProxiedUri((HttpServletRequest) request, userName );
+    doNothing().when( servlet ).doProxyCore( mockURI, (HttpServletRequest) request, (HttpServletResponse) response);
 
-    servlet.doProxy( request, response );
+    servlet.doProxy((HttpServletRequest) request, (HttpServletResponse) response);
 
-    verify( servlet, times( 1 ) ).buildProxiedUri( request, userName );
-    verify( servlet, times( 1 ) ).doProxyCore( mockURI, request, response );
+    verify( servlet, times( 1 ) ).buildProxiedUri((HttpServletRequest) request, userName );
+    verify( servlet, times( 1 ) ).doProxyCore( mockURI, (HttpServletRequest) request, (HttpServletResponse) response);
   }
 
   @Test
@@ -237,13 +240,13 @@ public class ProxyServletTest {
     ProxyServlet servlet = spy( new ProxyServlet() );
 
     when( servlet.getProxyURL() ).thenReturn( "https://www.pentaho.org" );
-    when( servlet.getPentahoSession( request ) ).thenReturn( session );
+    when( servlet.getPentahoSession((HttpServletRequest) request) ).thenReturn( session );
 
-    doThrow( URISyntaxException.class ).when( servlet ).buildProxiedUri( request, userName );
+    doThrow( URISyntaxException.class ).when( servlet ).buildProxiedUri((HttpServletRequest) request, userName );
 
-    servlet.doProxy( request, response );
+    servlet.doProxy((HttpServletRequest) request, (HttpServletResponse) response);
 
-    verify( servlet, times( 1 ) ).buildProxiedUri( request, userName );
+    verify( servlet, times( 1 ) ).buildProxiedUri((HttpServletRequest) request, userName );
     verify( servlet, never() ).doProxyCore( any(), any(), any() );
     verify( servlet, times( 1 ) ).error( any( String.class ) );
   }
@@ -262,13 +265,13 @@ public class ProxyServletTest {
     ProxyServlet servlet = spy( new ProxyServlet() );
 
     when( servlet.getProxyURL() ).thenReturn( "https://www.pentaho.org" );
-    when( servlet.getPentahoSession( request ) ).thenReturn( session );
+    when( servlet.getPentahoSession((HttpServletRequest) request) ).thenReturn( session );
 
-    doThrow( MalformedURLException.class ).when( servlet ).buildProxiedUri( request, userName );
+    doThrow( MalformedURLException.class ).when( servlet ).buildProxiedUri((HttpServletRequest) request, userName );
 
-    servlet.doProxy( request, response );
+    servlet.doProxy((HttpServletRequest) request, (HttpServletResponse) response);
 
-    verify( servlet, times( 1 ) ).buildProxiedUri( request, userName );
+    verify( servlet, times( 1 ) ).buildProxiedUri((HttpServletRequest) request, userName );
     verify( servlet, never() ).doProxyCore( any(), any(), any() );
     verify( servlet, times( 1 ) ).error( any( String.class ), any( IOException.class ) );
   }
@@ -294,7 +297,7 @@ public class ProxyServletTest {
 
       assertEquals(
         "https://www.pentaho.org/pentaho?foo=bar&_TRUST_USER_=admin&_TRUST_LOCALE_OVERRIDE_=en",
-        servlet.buildProxiedUri( request, userName ).toString() );
+        servlet.buildProxiedUri((HttpServletRequest) request, userName ).toString() );
     }
 
     verify( servlet, times( 1 ) ).debug( any( String.class ) );
@@ -319,7 +322,7 @@ public class ProxyServletTest {
 
       assertEquals(
         "https://www.pentaho.org/pentaho?_TRUST_USER_=admin&_TRUST_LOCALE_OVERRIDE_=en",
-        servlet.buildProxiedUri( request, userName ).toString() );
+        servlet.buildProxiedUri((HttpServletRequest) request, userName ).toString() );
     }
 
     verify( servlet, times( 1 ) ).debug( any( String.class ) );
@@ -351,7 +354,7 @@ public class ProxyServletTest {
     try ( MockedStatic<HttpClientManager> manager = Mockito.mockStatic( HttpClientManager.class ) ) {
       manager.when( HttpClientManager::getInstance ).thenReturn( mockManager );
 
-      servlet.doProxyCore( uri, request, response );
+      servlet.doProxyCore( uri, (HttpServletRequest) request, (HttpServletResponse) response);
     }
 
     verify( client, times( 1 ) ).execute( any( HttpUriRequest.class ) );
@@ -380,7 +383,7 @@ public class ProxyServletTest {
     try ( MockedStatic<HttpClientManager> manager = Mockito.mockStatic( HttpClientManager.class ) ) {
       manager.when( HttpClientManager::getInstance ).thenReturn( mockManager );
 
-      servlet.doProxyCore( uri, request, response );
+      servlet.doProxyCore( uri, (HttpServletRequest) request, (HttpServletResponse) response);
     }
 
     verify( client, times( 1 ) ).execute( any( HttpUriRequest.class ) );
@@ -404,7 +407,7 @@ public class ProxyServletTest {
     try ( MockedStatic<HttpClientManager> manager = Mockito.mockStatic( HttpClientManager.class ) ) {
       manager.when( HttpClientManager::getInstance ).thenReturn( mockManager );
 
-      servlet.doProxyCore( uri, request, response );
+      servlet.doProxyCore( uri, (HttpServletRequest) request, (HttpServletResponse) response);
     }
 
     verify( client, times( 1 ) ).execute( any( HttpUriRequest.class ) );
@@ -438,7 +441,7 @@ public class ProxyServletTest {
     try ( MockedStatic<HttpClientManager> manager = Mockito.mockStatic( HttpClientManager.class ) ) {
       manager.when( HttpClientManager::getInstance ).thenReturn( mockManager );
 
-      servlet.doProxyCore( uri, request, response );
+      servlet.doProxyCore( uri, (HttpServletRequest) request, (HttpServletResponse) response);
     }
 
     verify( client, times( 1 ) ).execute( any( HttpUriRequest.class ) );
@@ -480,7 +483,7 @@ public class ProxyServletTest {
     try ( MockedStatic<HttpClientManager> manager = Mockito.mockStatic( HttpClientManager.class ) ) {
       manager.when( HttpClientManager::getInstance ).thenReturn( mockManager );
 
-      servlet.doProxyCore( uri, request, response );
+      servlet.doProxyCore( uri, (HttpServletRequest) request, (HttpServletResponse) response);
     }
 
     verify( client, times( 1 ) ).execute( any( HttpUriRequest.class ) );
@@ -531,9 +534,9 @@ public class ProxyServletTest {
 
     ProxyServlet servlet = spy( new ProxyServlet() );
 
-    servlet.doPost( request, response );
+    servlet.doPost((HttpServletRequest) request, (HttpServletResponse) response);
 
-    verify( servlet, times( 1 ) ).doProxy( request, response );
+    verify( servlet, times( 1 ) ).doProxy((HttpServletRequest) request, (HttpServletResponse) response);
   }
 
   @Test
@@ -543,8 +546,8 @@ public class ProxyServletTest {
 
     ProxyServlet servlet = spy( new ProxyServlet() );
 
-    servlet.doGet( request, response );
+    servlet.doGet((HttpServletRequest) request, (HttpServletResponse) response);
 
-    verify( servlet, times( 1 ) ).doProxy( request, response );
+    verify( servlet, times( 1 ) ).doProxy((HttpServletRequest) request, (HttpServletResponse) response);
   }
 }

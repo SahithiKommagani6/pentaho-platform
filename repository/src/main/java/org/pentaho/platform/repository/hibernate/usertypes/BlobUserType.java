@@ -48,14 +48,19 @@ public class BlobUserType implements UserType {
 
   private static final boolean debug = PentahoSystem.debug;
 
-  private static final int[] SQLTYPE = { Types.BLOB };
+  private static final int SQLTYPE =  Types.BLOB ;
 
   /*
    * (non-Javadoc)
    * 
    * @see org.hibernate.usertype.UserType#sqlTypes()
    */
-  public int[] sqlTypes() {
+  /*public int[] sqlTypes() {
+    return BlobUserType.SQLTYPE;
+  }*/
+
+  @Override
+  public int getSqlType() {
     return BlobUserType.SQLTYPE;
   }
 
@@ -89,10 +94,15 @@ public class BlobUserType implements UserType {
   }
 
   @Override
+  public Object nullSafeGet(ResultSet resultSet, int i, SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws SQLException {
+    return null;
+  }
+
+  /*@Override
   public Object nullSafeGet( ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner )
     throws HibernateException, SQLException {
     return null;
-  }
+  }*/
 
   @Override
   public void nullSafeSet( PreparedStatement st, Object value, int index, SharedSessionContractImplementor session )
@@ -135,7 +145,7 @@ public class BlobUserType implements UserType {
         throw new HibernateException( Messages.getInstance().getErrorString( "BLOBUTYPE.ERROR_0001_SETTING_BLOB" ), ex ); //$NON-NLS-1$
       }
     } else {
-      arg0.setNull( arg2, sqlTypes()[0] );
+      arg0.setNull( arg2, getSqlType() );
     }
   }
 

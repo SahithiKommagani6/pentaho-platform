@@ -37,11 +37,12 @@ import org.hibernate.persister.collection.CollectionPersister;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.pretty.MessageHelper;
 import org.pentaho.platform.api.cache.ILastModifiedCacheItem;
-import javax.persistence.PersistenceException;
+import jakarta.persistence.PersistenceException;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -93,11 +94,31 @@ public class LastModifiedCache implements ILastModifiedCacheItem, HvCache {
     return sessionFactory;
   }
 
-  @Override public boolean containsEntity( Class entityClass, Serializable identifier ) {
+  @Override
+  public boolean containsEntity(Class<?> aClass, Object o) {
+    return false;
+  }
+
+  @Override
+  public boolean containsEntity(String s, Object o) {
+    return false;
+  }
+
+  @Override
+  public void evictEntityData(Class<?> aClass, Object o) {
+
+  }
+
+  @Override
+  public void evictEntityData(String s, Object o) {
+
+  }
+
+   public boolean containsEntity( Class entityClass, Serializable identifier ) {
     return this.containsEntity(entityClass.getName(), identifier);
   }
 
-  @Override public boolean containsEntity( String entityName, Serializable identifier ) {
+ public boolean containsEntity( String entityName, Serializable identifier ) {
     EntityPersister entityDescriptor = this.sessionFactory.getMetamodel().entityPersister(entityName);
     EntityDataAccess cacheAccess = entityDescriptor.getCacheAccessStrategy();
     if (cacheAccess == null) {
@@ -108,11 +129,11 @@ public class LastModifiedCache implements ILastModifiedCacheItem, HvCache {
     }
   }
 
-  @Override public void evictEntityData( Class entityClass, Serializable identifier ) {
+   public void evictEntityData( Class entityClass, Serializable identifier ) {
     evictEntityData( entityClass.getName(), identifier );
   }
 
-  @Override public void evictEntityData( String entityName, Serializable identifier ) {
+ public void evictEntityData( String entityName, Serializable identifier ) {
     final EntityPersister entityDescriptor = sessionFactory.getMetamodel().entityPersister( entityName );
     final EntityDataAccess cacheAccess = entityDescriptor.getCacheAccessStrategy();
     if ( cacheAccess == null ) {
@@ -159,17 +180,27 @@ public class LastModifiedCache implements ILastModifiedCacheItem, HvCache {
     throwNotImplemented();
   }
 
+  @Override
+  public boolean containsCollection(String s, Object o) {
+    return false;
+  }
+
+  @Override
+  public void evictCollectionData(String s, Object o) {
+
+  }
+
   private void evictNaturalIdData(NavigableRole rootEntityRole, NaturalIdDataAccess cacheAccess) {
     throwNotImplemented();
   }
 
-  @Override
+
   public boolean containsCollection(String role, Serializable ownerIdentifier) {
     throwNotImplemented();
     return false;
   }
 
-  @Override
+
   public void evictCollectionData(String role, Serializable ownerIdentifier) {
     throwNotImplemented();
     }
@@ -211,13 +242,13 @@ public class LastModifiedCache implements ILastModifiedCacheItem, HvCache {
   @Override
   public boolean contains(Class cls, Object primaryKey) {
     // JPA
-    return containsEntity( cls, (Serializable) primaryKey );
+    return containsEntity( cls, Optional.ofNullable((Serializable) primaryKey));
   }
 
   @Override
   public void evict(Class cls, Object primaryKey) {
     // JPA call
-    evictEntityData( cls, (Serializable) primaryKey );
+    evictEntityData( cls, Optional.ofNullable((Serializable) primaryKey));
   }
 
   @Override public void evict( Class aClass ) {

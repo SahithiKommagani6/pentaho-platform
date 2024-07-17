@@ -23,7 +23,7 @@ package org.pentaho.test.platform.web.http.api;
 import com.sun.jersey.api.client.ClientResponse;
 import junit.framework.AssertionFailedError;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.zip.ZipInputStream;
 

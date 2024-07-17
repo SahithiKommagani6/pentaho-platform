@@ -21,6 +21,7 @@
 package org.pentaho.platform.web.http.api.resources;
 
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -47,17 +48,18 @@ import org.pentaho.platform.util.RepositoryPathEncoder;
 import org.pentaho.platform.web.http.messages.Messages;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -69,11 +71,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import static javax.ws.rs.core.MediaType.WILDCARD;
-import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static jakarta.ws.rs.core.MediaType.WILDCARD;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_XML;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.Response.Status.NOT_FOUND;
 
 /**
  * The RepositoryResource service retrieves the repository files through various methods.  Allows you to execute repository content.
@@ -94,8 +96,8 @@ public class RepositoryResource extends AbstractJaxRSResource {
   @Path ( "{pathId : .+}/content" )
   @Produces ( { WILDCARD } )
   @Facet ( name = "Unsupported" )
-  public Response doGetFileOrDir( @PathParam ( "pathId" ) String pathId ) throws FileNotFoundException {
-    FileResource fileResource = new FileResource( httpServletResponse );
+  public jakarta.ws.rs.core.Response doGetFileOrDir(@PathParam ( "pathId" ) String pathId ) throws FileNotFoundException {
+    FileResource fileResource = new FileResource((HttpServletResponse) httpServletResponse);
     fileResource.setWhitelist( whitelist );
     return fileResource.doGetFileOrDir( pathId );
   }

@@ -4,8 +4,12 @@
   "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory name="java:Pentaho/SessionFactory" >
-	<!-- CacheProviderClass -->  
-  
+	<!-- CacheProviderClass -->
+    <!-- Ehcache 3 configuration -->
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+    <property name="hibernate.cache.region.factory_class">jcache</property>
+    <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property>
+    <property name="hibernate.javax.cache.uri">ehcache.xml</property>
     <property name="connection.datasource">Hibernate</property>
     <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
     <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>

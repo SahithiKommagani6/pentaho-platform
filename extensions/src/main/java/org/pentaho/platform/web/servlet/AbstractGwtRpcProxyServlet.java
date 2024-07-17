@@ -31,7 +31,7 @@ import org.pentaho.platform.web.gwt.rpc.AbstractGwtRpc;
 import org.pentaho.platform.web.gwt.rpc.support.GwtRpcSerializationPolicyCache;
 import org.pentaho.platform.web.gwt.rpc.IGwtRpcSerializationPolicyCache;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 

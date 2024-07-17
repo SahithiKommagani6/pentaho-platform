@@ -24,6 +24,6 @@ package org.pentaho.platform.repository.hibernate;
  * @deprecated Use org.hibernate.dialect.MySQL5InnoDBDialect instead
  */
 @Deprecated
-public class MySQL5InnoDBDialect extends org.hibernate.dialect.MySQL5InnoDBDialect {
+public class MySQL5InnoDBDialect extends org.hibernate.dialect.MySQLDialect {
 
 }

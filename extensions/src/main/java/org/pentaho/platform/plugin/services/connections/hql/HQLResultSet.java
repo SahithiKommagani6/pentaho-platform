@@ -20,6 +20,7 @@
 
 package org.pentaho.platform.plugin.services.connections.hql;
 
+import jakarta.persistence.Tuple;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.type.Type;
@@ -72,7 +73,11 @@ public class HQLResultSet implements IPentahoResultSet, IPeekable {
     }
   }
 
-  public void setMetaData( final IPentahoMetaData metadata ) {
+    public HQLResultSet(List<Tuple> list) {
+    this( list, null, null );
+    }
+
+    public void setMetaData( final IPentahoMetaData metadata ) {
     this.metadata = metadata;
   }
 

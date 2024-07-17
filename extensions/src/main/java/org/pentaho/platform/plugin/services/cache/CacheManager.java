@@ -180,8 +180,14 @@ public class CacheManager implements ICacheManager {
 
     if ( null != obj ) {
       if ( obj instanceof RegionFactory ) {
-        this.regionFactory = (RegionFactory) obj;  //cacheProvider changed to regionFactory for hibernate 5.3
-        regionFactory.start( HibernateUtil.getSessionFactory().getSessionFactoryOptions(), cacheProperties );
+        this.regionFactory = (RegionFactory) obj;
+        Map<String, Object> cachePropertiesMap = new HashMap<>();
+        for (String name : cacheProperties.stringPropertyNames()) {
+          cachePropertiesMap.put(name, cacheProperties.getProperty(name));
+        }
+        regionFactory.start(HibernateUtil.getSessionFactory().getSessionFactoryOptions(), cachePropertiesMap);
+        //cacheProvider changed to regionFactory for hibernate 5.3
+        //regionFactory.start( HibernateUtil.getSessionFactory().getSessionFactoryOptions(), cacheProperties );
         regionCache = new HashMap<String, Cache>();
         ( (SessionFactoryImplementor) HibernateUtil.getSessionFactory() ).getServiceRegistry()
           .getService( EventListenerRegistry.class ).prependListeners(

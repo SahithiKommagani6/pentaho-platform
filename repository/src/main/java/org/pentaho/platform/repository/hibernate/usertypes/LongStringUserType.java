@@ -62,6 +62,11 @@ public class LongStringUserType implements UserType {
     return LongStringUserType.SQLTYPE;
   }
 
+  @Override
+  public int getSqlType() {
+    return java.sql.Types.CLOB;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -96,6 +101,11 @@ public class LongStringUserType implements UserType {
   }
 
   @Override
+  public Object nullSafeGet(ResultSet resultSet, int i, SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws SQLException {
+    return null;
+  }
+
+
   public Object nullSafeGet( ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner )
     throws HibernateException, SQLException {
     return null;

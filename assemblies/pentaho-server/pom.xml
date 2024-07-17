@@ -68,8 +68,8 @@
       <version>${h2.version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>jsp-api</artifactId>
+      <groupId>jakarta.servlet.jsp</groupId>
+      <artifactId>jakarta.servlet.jsp-api</artifactId>
       <version>${jsp-api.version}</version>
     </dependency>
     <dependency>

@@ -20,7 +20,7 @@
 
 package org.pentaho.platform.scheduler2.recur;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class QualifiedDayOfMonth implements ITimeRecurrence {
